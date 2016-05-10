@@ -67,6 +67,15 @@ USER root
 ADD circus.ini /
 ADD circus.conf /
 ADD nginx_taiga /
+ADD launchscript /
+
+
+RUN mkdir -p /tmp/
+ADD local.py.tmpl /tmp/
+ADD app-loader.js.tmpl /tmp/
+ADD conf.json.tmpl /tmp/
+
+RUN chmod +x launchscript
 
 RUN mkdir -p cd /home/taiga/conf/ && \
     mkdir /home/taiga/logs && \
@@ -75,10 +84,10 @@ RUN mkdir -p cd /home/taiga/conf/ && \
     mv nginx_taiga /etc/nginx/sites-available/taiga && \
     chown -R taiga:taiga /home/taiga
 
-RUN  sudo rm /etc/nginx/sites-enabled/default && \
- sudo ln -s /etc/nginx/sites-available/taiga /etc/nginx/sites-enabled/taiga
+RUN sudo rm /etc/nginx/sites-enabled/default && \
+    sudo ln -s /etc/nginx/sites-available/taiga /etc/nginx/sites-enabled/taiga
 
 EXPOSE 80 5432
-CMD service nginx restart && service postgresql start && /usr/local/bin/circusd /home/taiga/conf/circus.ini
+CMD /launchscript && service nginx restart && service postgresql start && /usr/local/bin/circusd /home/taiga/conf/circus.ini
 
 

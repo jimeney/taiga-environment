@@ -1,0 +1,49 @@
+from .common import *
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': '${TAIGA_DB_NAME}',
+        'USER': '${TAIGA_DB_USER}',
+        'PASSWORD': '${TAIGA_DB_PASSWORD}',
+        'HOST': '${TAIGA_DB_HOST}',
+        'PORT': '${TAIGA_DB_PORT}',
+    }
+}
+
+ADMINS = (
+    ("Admin", "${ADMIN_EMAIL}"),
+)
+
+# THROTTLING (Anti-flood)
+REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {
+    "anon": "20/min",
+    "user": "200/min",
+    "import-mode": "20/sec",
+    "import-dump-mode": "10/minute"
+}
+
+SECRET_KEY = "${DJANGO_SECRET_KEY}"
+
+MEDIA_ROOT = '${DATA}/media'
+STATIC_ROOT = '${DATA}/static'
+
+MEDIA_URL = "${SITE_URI}/media/"
+STATIC_URL = "${SITE_URI}/static/"
+ADMIN_MEDIA_PREFIX = "${SITE_URI}/static/admin/"
+SITES["front"]["scheme"] = "${SITE_SCHEME}"
+SITES["front"]["domain"] = "${SITE_FQDN}"
+
+DEBUG = False
+TEMPLATE_DEBUG = False
+PUBLIC_REGISTER_ENABLED = ${PUBLIC_REGISTER}
+
+DEFAULT_FROM_EMAIL = "${NOREPLY_EMAIL}"
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+EMAIL_BACKEND = "${EMAIL_BACKEND}"
+EMAIL_USE_TLS = ${EMAIL_USE_TLS}
+EMAIL_HOST = "${EMAIL_HOST}"
+EMAIL_HOST_USER = "${EMAIL_HOST_USER}"
+EMAIL_HOST_PASSWORD = "${EMAIL_HOST_PASSWORD}"
+EMAIL_PORT = ${EMAIL_HOST_PORT}

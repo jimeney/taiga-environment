@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Debug
+# set -x
+
+export SITE_URI=${SITE_URI:-http://example.com}
+export SITE_FQDN=$(echo $SITE_URI | sed -e "s/[^/]*\/\/\([^@]*@\)\?\([^:/]*\).*/\2/")
+[ "${SITE_URI::5}" == "https" ] && SITE_SCHEME="https" || SITE_SCHEME="http"
+
+export PUBLIC_REGISTER PUBLIC_REGISTER_JS
+export ADMIN_EMAIL=${ADMIN_EMAIL:-admin@example.com}
+export NOREPLY_EMAIL=${NOREPLY_EMAIL:-no-reply@example.com}
+
+export EMAIL_HOST=${EMAIL_HOST:-localhost}
+export EMAIL_HOST_USER=${EMAIL_HOST_USER:-}
+export EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD:-}
+export EMAIL_HOST_PORT=${EMAIL_HOST_PORT:-587}
+export EMAIL_USE_TLS=${EMAIL_USE_TLS:-False}
+export EMAIL_BACKEND=${EMAIL_BACKEND:-django.core.mail.backends.smtp.EmailBackend}
+
+# Generate configs based on the template seeds
+envsubst < /tmp/conf.json.tmpl > /home/taiga/taiga-front-dist/dist/conf.json
+envsubst < /tmp/local.py.tmpl > /home/taiga/taiga-back/settings/local.py
+envsubst < /tmp/app-loader.js.tmpl > /home/taiga/taiga-front-dist/dist/v-1461931321319/js/app-loader.js
