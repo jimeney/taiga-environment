@@ -1,5 +1,5 @@
 # taiga-environment
-Complete Taiga environment
+Complete Taiga Environment
 
 Dockhub: https://hub.docker.com/r/jcpw/taiga-environment/
 Github: https://github.com/jimeney/taiga-environment
@@ -18,17 +18,21 @@ https://hub.docker.com/r/bitstrange/taiga/
 
 Command to start container: 
 
-docker run --name taiga -d \
--v PATH/local.py:/home/taiga/taiga-back/settings/local.py \
--v PATH/conf.json:/home/taiga/taiga-front-dist/dist/js/conf.json \
--v PATH/app-loader.js:/home/taiga/taiga-front-dist/dist/v-1461931321319/js/app-loader.js \
--p 80:80 jcpw/taiga-environment:latest
+docker run --name taiga -d -p 80:80 jcpw/taiga-environment:latest
 
-You will have to provide the files 
+You will have to provide the following environment variables for it to work: 
 
-local.py - set up Email, the URI etc.
-conf.json - set up the URI to the API
-app-loader.js - set up the URI to the API
+SITE_URI
+ADMIN_EMAIL
+NOREPLY_EMAIL
+
+Optionally, for emailing to work:
+EMAIL_HOST
+EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD
+EMAIL_HOST_PORT
+EMAIL_USE_TLS
+EMAIL_BACKEND
 
 It’s a work in progress, based on the STABLE branch of TAIGA, the image was built on 6th May 2016
 
